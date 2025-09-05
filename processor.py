@@ -1,7 +1,7 @@
 import pandas as pd
 
 from constants import TICKER_DETAILS
-from time_utils import normalize_index, normalize_timestamp, fy_start_end
+from time_utils import normalize_index, normalize_timestamp, cy_start_end
 from market import get_stock_history, get_splits_series, get_dividends_series
 from forex import fetch_inr_rates, get_inr_rate
 from logger_config import get_logger
@@ -21,9 +21,9 @@ def update_schedule_fa(input_excel: str, output_csv: str, year: int):
         )
     detail_columns_order = list(next(iter(TICKER_DETAILS.values())).keys())
 
-    fy_start, fy_end = fy_start_end(year)
-    start_date = fy_start.strftime("%Y-%m-%d")
-    end_date = fy_end.strftime("%Y-%m-%d")
+    cy_start, cy_end = cy_start_end(year)
+    start_date = cy_start.strftime("%Y-%m-%d")
+    end_date = cy_end.strftime("%Y-%m-%d")
 
     # Prefetch INR exchange rates once from the earliest acquisition date across all tickers
     global_min_acq = None
@@ -92,9 +92,8 @@ def update_schedule_fa(input_excel: str, output_csv: str, year: int):
                         eff_quantity *= ratio  # e.g., 2 means 2-for-1 split
                 return float(eff_quantity)
 
-
-            holding_start = max(normalize_timestamp(acq_date), fy_start)
-            holding_end = fy_end
+            holding_start = max(normalize_timestamp(acq_date), cy_start)
+            holding_end = cy_end
             hist_holding = hist.loc[
                 holding_start.strftime("%Y-%m-%d") : holding_end.strftime("%Y-%m-%d")
             ]

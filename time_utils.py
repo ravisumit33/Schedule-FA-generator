@@ -15,7 +15,7 @@ def normalize_index(idx: pd.Index) -> pd.DatetimeIndex:
     return dti.normalize()
 
 
-def fy_start_end(year: int) -> tuple[pd.Timestamp, pd.Timestamp]:
+def cy_start_end(year: int) -> tuple[pd.Timestamp, pd.Timestamp]:
     start = pd.Timestamp(f"{year}-01-01")
     end = pd.Timestamp(f"{year}-12-31")
     return start, end
@@ -30,5 +30,3 @@ def fy_quarter(date_ts: pd.Timestamp) -> str:
     if 7 <= dt.month <= 9:
         return "Q3"
     return "Q4"
-
-
