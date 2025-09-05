@@ -23,7 +23,7 @@ def main():
         "--output-csv",
         "-o",
         default="Schedule-FA.csv",
-        help="Path to output CSV (default: Schedule-FA-updated.csv)",
+        help="Path to output CSV (default: Schedule-FA.csv)",
     )
     parser.add_argument(
         "--year",
@@ -36,9 +36,7 @@ def main():
     args = parser.parse_args()
 
     logger.info("Run started for year=%s", args.year)
-    updated_df, quarter_dividends = update_schedule_fa(
-        args.input_excel, args.output_csv, year=args.year
-    )
+    updated_df, quarter_dividends = update_schedule_fa(args.input_excel, year=args.year)
 
     # Write updated CSV
     updated_df.to_csv(args.output_csv, index=False)
